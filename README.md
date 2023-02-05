@@ -39,25 +39,25 @@ name_teacher VARCHAR(50) not null,
 );
 
 select * from Cursos;
-
+________________________________________________________________________
 select cursos_nome, nome
 
 from cursos inner join students
 
 on students.id_cli = cursos.cli_id;
-
+________________________________________________________________________
 select cursos_nome, nome
 
 from cursos left join students
 
 on students.id_cli = cursos.cli_id;
-
+________________________________________________________________________
 select cursos_nome, nome
 
 from cursos right join students
 
 on students.id_cli = cursos.cli_id;
-
+________________________________________________________________________
 select cursos_nome, nome
 
 from cursos left join students
