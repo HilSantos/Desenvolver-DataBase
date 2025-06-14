@@ -1,74 +1,56 @@
-# Desenvolver-DataBase
+-- Criação do banco de dados --
+CREATE DATABASE School;
+USE School;
 
-CREATE DATABASE School(
-
-use School;
-
-CREATE TABLE Students(
-
-PRIMARY KEY (ID_INT),
-
-id_int not null auto_increment,
-
-name VARCHAR(35) not null,
-
-materia VARCHAR(50) not null,
-
-Cursos_id INT,
-
-CONSTRAINT FOREIGN KEY (Cursos_id)
-
-REFERENCES Cursos (id_Curso)
-
+-- Criação da tabela Cursos --
+CREATE TABLE Cursos (
+  id_Curso INT AUTO_INCREMENT PRIMARY KEY,
+  name_Curso VARCHAR(50) NOT NULL,
+  name_teacher VARCHAR(50) NOT NULL
 );
 
-insert into Students(name, materia) values('João Carlos', Biotecnologia),
-('José Vitor', Meio Ambiente e Sustentabilidade),
-('Paulo André', Energias Renovaveis);
-
-select * from Students;
-
-CREATE TABLE Cursos(
-
-id_Curso int AUTO_INCREMENT PRIMARY KEY,
-
-name_Curso VARCHAR(50) not null,
-
-name_teacher VARCHAR(50) not null,
-
+-- Criação da tabela Students --
+CREATE TABLE Students (
+  id_int INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(35) NOT NULL,
+  materia VARCHAR(50) NOT NULL,
+  Cursos_id INT,
+  FOREIGN KEY (Cursos_id) REFERENCES Cursos(id_Curso)
 );
 
-select * from Cursos;
-________________________________________________________________________
-select cursos_nome, nome
+-- Inserção de cursos --
+INSERT INTO Cursos (name_Curso, name_teacher) VALUES
+('Biotecnologia', 'Prof. Silva'),
+('Meio Ambiente e Sustentabilidade', 'Prof. Souza'),
+('Energias Renováveis', 'Prof. Lima');
 
-from cursos inner join students
+-- Inserção de estudantes --
+INSERT INTO Students (name, materia, Cursos_id) VALUES
+('João Carlos', 'Biotecnologia', 1),
+('José Vitor', 'Meio Ambiente e Sustentabilidade', 2),
+('Paulo André', 'Energias Renováveis', 3);
 
-on students.id_cli = cursos.cli_id;
-________________________________________________________________________
-select cursos_nome, nome
+-- Consultas de junção --
+-- Inner join --
+SELECT c.name_Curso AS cursos_nome, s.name AS nome
+FROM Cursos c
+INNER JOIN Students s ON s.Cursos_id = c.id_Curso;
 
-from cursos left join students
+-- Left join --
+SELECT c.name_Curso AS cursos_nome, s.name AS nome
+FROM Cursos c
+LEFT JOIN Students s ON s.Cursos_id = c.id_Curso;
 
-on students.id_cli = cursos.cli_id;
-________________________________________________________________________
-select cursos_nome, nome
+-- Right join (não suportado por alguns SGBDs como MySQL sem especificar o tipo de tabela) --
+SELECT c.name_Curso AS cursos_nome, s.name AS nome
+FROM Cursos c
+RIGHT JOIN Students s ON s.Cursos_id = c.id_Curso;
 
-from cursos right join students
-
-on students.id_cli = cursos.cli_id;
-________________________________________________________________________
-select cursos_nome, nome
-
-from cursos left join students
-
-on students.id_cli = cursos.cli_id
-
-union
-
-select cursos_nome, nome
-
-from cursos right join students
-
-on students.id_cli = cursos.cli_id;
-
+-- Union das junções --
+SELECT c.name_Curso AS cursos_nome, s.name AS nome
+FROM Cursos c
+LEFT JOIN Students s ON s.Cursos_id = c.id_Curso
+UNION
+SELECT c.name_Curso AS cursos_nome, s.name AS nome
+FROM Cursos c
+RIGHT JOIN Students s ON s.Cursos_id = c.id_Curso;
